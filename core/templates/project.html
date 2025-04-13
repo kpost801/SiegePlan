@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New Project</title>
+    <script>
+      const maps = [
+        "Bank",
+        "Border",
+        "Chalet",
+        "Clubhouse",
+        "Coastline",
+        "Consulate",
+        "Kafe Dostoyevsky",
+        "Nighthaven Labs",
+        "Oregon",
+        "Skyscraper",
+        "Theme Park",
+        "Villa",
+      ];
+      let selectedCharacters = [];
+
+      function updateCharacters() {
+        const role = document.getElementById("role").value;
+        const characters = document.getElementById("characters");
+        characters.innerHTML = ""; // Clear previous options
+        selectedCharacters = [];
+
+        const attackers = [
+          "Ace",
+          "Ash",
+          "Blackbeard",
+          "Blitz",
+          "Brava",
+          "Buck",
+          "Capitao",
+          "Dokkaebi",
+          "Finka",
+          "Flores",
+          "Fuze",
+          "Glaz",
+          "Gridlock",
+          "Grim",
+          "Hibana",
+          "Iana",
+          "IQ",
+          "Jackal",
+          "Kali",
+          "Lion",
+          "Maverick",
+          "Montagne",
+          "Nokk",
+          "Nomad",
+          "Osa",
+          "Ram",
+          "Rauora",
+          "Sledge",
+          "Striker",
+          "Thatcher",
+          "Thermite",
+          "Twitch",
+          "Ying",
+          "Zero",
+          "Zofia",
+        ];
+        const defenders = [
+          "Amaru",
+          "Alibi",
+          "Aruni",
+          "Azami",
+          "Bandit",
+          "Castle",
+          "Clash",
+          "Caveira",
+          "Doc",
+          "Echo",
+          "Ela",
+          "Fenrir",
+          "Frost",
+          "Goyo",
+          "Jäger",
+          "Kaid",
+          "Kapkan",
+          "Lesion",
+          "Maestro",
+          "Mira",
+          "Mozzie",
+          "Mute",
+          "Oryx",
+          "Pulse",
+          "Rook",
+          "Smoke",
+          "Solis",
+          "Tachanka",
+          "Thorn",
+          "Valkyrie",
+          "Vigil",
+          "Wamai",
+          "Warden",
+        ];
+
+        const options = role === "attack" ? attackers : defenders;
+
+        options.forEach((character) => {
+          const option = document.createElement("option");
+          option.value = character;
+          option.textContent = character;
+          characters.appendChild(option);
+        });
+
+        updateCharacterDisplay();
+      }
+
+      function populateMaps() {
+        const mapSelect = document.getElementById("map");
+        maps.forEach((map) => {
+          const option = document.createElement("option");
+          option.value = map;
+          option.textContent = map;
+          mapSelect.appendChild(option);
+        });
+      }
+
+      function handleMapSelect(event) {
+        const selectedMap = event.target.value;
+        const mapDisplay = document.getElementById("map-display");
+
+        if (!selectedMap) {
+          mapDisplay.innerHTML = "<i>No map selected</i>";
+        } else {
+          mapDisplay.innerHTML = `<strong>Selected Map:</strong> ${selectedMap}`;
+        }
+      }
+
+      function handleCharacterSelect(event) {
+        const selected = Array.from(event.target.selectedOptions).map(
+          (opt) => opt.value
+        );
+
+        if (selected.length > 5) {
+          alert("You can only select up to 5 characters!");
+          selected.pop();
+          for (let option of event.target.options) {
+            option.selected = selected.includes(option.value);
+          }
+        }
+
+        selectedCharacters = selected;
+        updateCharacterDisplay();
+      }
+
+      function updateCharacterDisplay() {
+        const displayDiv = document.getElementById("selected-display");
+        displayDiv.innerHTML = ""; // Clear the list
+
+        if (selectedCharacters.length === 0) {
+          displayDiv.innerHTML = "<i>No characters selected yet</i>";
+          return;
+        }
+
+        const ul = document.createElement("ul");
+        selectedCharacters.forEach((character) => {
+          const li = document.createElement("li");
+          li.textContent = character;
+          ul.appendChild(li);
+        });
+
+        displayDiv.appendChild(ul);
+      }
+
+      window.addEventListener("DOMContentLoaded", function () {
+        document
+          .getElementById("characters")
+          .addEventListener("change", handleCharacterSelect);
+
+        document
+          .getElementById("map")
+          .addEventListener("change", handleMapSelect);
+
+        populateMaps();
+      });
+    </script>
+  </head>
+  <body>
+    <form method="POST" action="">
+      <div class="mb-3">
+        <label for="project" class="form-label">Project Name</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-person"></i></span>
+          <input
+            type="text"
+            id="project"
+            name="project"
+            class="form-control"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label">Map</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class=""></i></span>
+          <select id="map" name="map" class="form-select" required>
+            <option value="">Select a Map</option>
+          </select>
+        </div>
+      </div>
+      <div class="mt-3">
+        <div id="map-display" style="margin-top: 5px">
+          <i>No map selected yet</i>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="role" class="form-label">Role</label>
+        <div class="input-group">
+          <span class="input-group-text"
+            ><i class="bi bi-shield-lock"></i
+          ></span>
+          <select
+            id="role"
+            name="role"
+            class="form-select"
+            required
+            onchange="updateCharacters()"
+          >
+            <option value="">Select Role</option>
+            <option value="attack">Attack</option>
+            <option value="defend">Defend</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="role" class="form-label">Characters</label>
+        <div class="input-group">
+          <span class="input-group-text"
+            ><i class="bi bi-shield-lock"></i
+          ></span>
+          <select
+            id="characters"
+            name="characters[]"
+            class="form-select"
+            required
+            multiple
+            size="6"
+          >
+            <option value="">Select 5 Characters</option>
+          </select>
+        </div>
+      </div>
+      <div class="mt-3">
+        <strong>Selected Characters:</strong>
+        <div id="selected-display" style="margin-top: 5px"></div>
+      </div>
+
+      <!-- Email Opt-in Checkbox -->
+
+      <div class="form-check mb-3">
+        <input
+          type="checkbox"
+          id="remember"
+          name="remember"
+          class="form-check-input"
+        />
+        <label class="form-check-label" for="remember">Remember me</label>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100">Submit</button>
+
+      <p class="text-center mt-3">
+        Already have an account?
+        <a href="{{ url_for('auth.login') }}">Login</a>
+      </p>
+    </form>
+  </body>
+</html>
