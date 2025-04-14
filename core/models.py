@@ -34,7 +34,7 @@ class Operator(db.Model):
     ability_description = db.Column(db.Text)
 
 class Project(db.Model):
-      
+      id = db.Column(db.Integer, primary_key=True)
       name = db.Column(db.String(100), nullable=False)
       map = db.Column(db.String(100), nullable=False)
       role = db.Column(db.String(20))
