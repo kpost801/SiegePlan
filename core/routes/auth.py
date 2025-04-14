@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import login_user, login_required, logout_user, current_user
 from core.models import User
+from core.
 from core import db
 
 auth = Blueprint("auth", __name__)
@@ -45,3 +46,4 @@ def logout():
     logout_user()
     flash("Logged out successfully!", "info")
     return redirect(url_for("auth.login"))
+

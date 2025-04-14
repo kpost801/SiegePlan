@@ -33,6 +33,18 @@ class Operator(db.Model):
     armor = db.Column(db.Integer)
     ability_description = db.Column(db.Text)
 
+class Project(db.Model):
+      
+      name = db.Column(db.String(100), nullable=False)
+      map = db.Column(db.String(100), nullable=False)
+      role = db.Column(db.String(20))
+      characters = db.Column(db.PickleType, nullable=False)
+      
+      user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+      user = db.relationship("User", backref="projects")
+
+
+
 class Strategy(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
