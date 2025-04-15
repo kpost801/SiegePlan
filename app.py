@@ -1,5 +1,5 @@
-#from flask import Flask, render_template, jsonify
 from core import create_app
+from flask import Flask, render_template, jsonify, session
 from livereload import Server
 from dotenv import load_dotenv
 import os
@@ -17,7 +17,7 @@ if __name__ == "__main__":
 		server.watch("core/**/*.py")
 		server.watch("core/**/*.html")
 		server.watch("core/**/*.css")
-		server.serve(port=5000)  # Start the server with livereload
+		server.serve(port=5001)  
 	else:
-    	# Run in standard mode for production
-		app.run(port=5000)
+    	
+		app.run(port=5001)

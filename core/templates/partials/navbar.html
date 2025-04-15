@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg border-bottom">
   <div class="container">
-    <a class="navbar-brand" href="{{ url_for('web.project')}}">
-      <span class="badge bg-success ms-2">New Project</span>
+    <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="#">
+      <i class="bi bi-shield-lock"></i> Siege Strat
     </a>
     <button
       class="navbar-toggler"
@@ -17,16 +17,19 @@
     <div class="collapse navbar-collapse" id="navbarContent">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link" href=""> About </a>
+          <a class="nav-link transition" href="#">
+            <i class="bi bi-info-circle"></i> About
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href=""> Login </a>
+          <a class="nav-link transition" href="{{ url_for('web.strat') }}">
+            <i class="bi bi-map"></i> Maps
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="">Logout</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="">Signup</a>
+          <a class="nav-link transition" href="{{ url_for('web.project') }}">
+            <i class="bi bi-clipboard-check"></i> Strats
+          </a>
         </li>
       </ul>
     </div>

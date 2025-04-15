@@ -1,9 +1,20 @@
+{% include 'partials/navbar.html' %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>New Project</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
       const maps = [
         "Bank",
@@ -125,11 +136,30 @@
       function handleMapSelect(event) {
         const selectedMap = event.target.value;
         const mapDisplay = document.getElementById("map-display");
+        const mapImage = document.getElementById("map-image");
 
-        if (!selectedMap) {
-          mapDisplay.innerHTML = "<i>No map selected</i>";
-        } else {
+        const mapImages = {
+          Bank: "/static/pictures/bank2.jpeg",
+          Border: "/static/pictures/border2.jpeg",
+          Chalet: "/static/pictures/chalet2.jpeg",
+          Clubhouse: "/static/pictures/club2ndfloor.jpeg",
+          Coastline: "/static/pictures/coastline.jpeg",
+          Consulate: "/static/pictures/cons2.jpeg",
+          "Kafe Dostoyevsky": "/static/pictures/kafe2.jpeg",
+          "Nighthaven Labs": "/static/pictures/labs2.jpeg",
+          Oregon: "/static/pictures/2ndfloodoregon.jpeg",
+          Skyscraper: "/static/pictures/sky2.jpeg",
+          "Theme Park": "/static/pictures/theme2.jpeg",
+          Villa: "/static/pictures/villa2.jpeg",
+        };
+
+        if (selectedMap) {
           mapDisplay.innerHTML = `<strong>Selected Map:</strong> ${selectedMap}`;
+          mapImage.src = mapImages[selectedMap] || "";
+          mapImage.style.display = "block";
+        } else {
+          mapDisplay.innerHTML = "<i>No map selected</i>";
+          mapImage.style.display = "none";
         }
       }
 
@@ -182,98 +212,116 @@
       });
     </script>
   </head>
-  <body>
-    <form method="POST" action="{{ url_for('web.project') }}">
-      <div class="mb-3">
-        <label for="project" class="form-label">Project Name</label>
-        <div class="input-group">
-          <span class="input-group-text"><i class="bi bi-person"></i></span>
-          <input
-            type="text"
-            id="project"
-            name="project"
-            class="form-control"
-            required
-          />
+  <body class="bg-light">
+    <div class="container py-5">
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+          <div class="card shadow rounded-4">
+            <div class="card-body p-4">
+              <h3 class="card-title text-center mb-4">New Project</h3>
+              <form method="POST" action="{{ url_for('web.project') }}">
+                <div class="mb-3">
+                  <label for="project" class="form-label">Project Name</label>
+                  <div class="input-group">
+                    <span class="input-group-text"
+                      ><i class="bi bi-folder2"></i
+                    ></span>
+                    <input
+                      type="text"
+                      id="project"
+                      name="project"
+                      class="form-control"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="map" class="form-label">Map</label>
+                  <div class="input-group">
+                    <span class="input-group-text"
+                      ><i class="bi bi-map"></i
+                    ></span>
+                    <select id="map" name="map" class="form-select" required>
+                      <option value="">Select a Map</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="mt-3">
+                  <div id="map-display" style="margin-top: 5px">
+                    <i>No map selected yet</i>
+                  </div>
+                  <img
+                    id="map-image"
+                    src=""
+                    alt="Map Preview"
+                    class="img-fluid mt-3 rounded"
+                    style="display: none"
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label for="role" class="form-label">Role</label>
+                  <div class="input-group">
+                    <span class="input-group-text"
+                      ><i class="bi bi-person-badge"></i
+                    ></span>
+                    <select
+                      id="role"
+                      name="role"
+                      class="form-select"
+                      required
+                      onchange="updateCharacters()"
+                    >
+                      <option value="">Select Role</option>
+                      <option value="attack">Attack</option>
+                      <option value="defend">Defend</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="characters" class="form-label">Characters</label>
+                  <div class="input-group">
+                    <span class="input-group-text"
+                      ><i class="bi bi-person-lines-fill"></i
+                    ></span>
+                    <select
+                      id="characters"
+                      name="characters[]"
+                      class="form-select"
+                      required
+                      multiple
+                      size="6"
+                    >
+                      <option value="">Select 5 Characters</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="mt-3">
+                  <strong>Selected Characters:</strong>
+                  <div id="selected-display" style="margin-top: 5px"></div>
+                </div>
+
+                <div class="form-check mb-3">
+                  <input
+                    type="checkbox"
+                    id="remember"
+                    name="remember"
+                    class="form-check-input"
+                  />
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">
+                  Go to Drawing Board
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
-
-      <div class="mb-3">
-        <label for="email" class="form-label">Map</label>
-        <div class="input-group">
-          <span class="input-group-text"><i class=""></i></span>
-          <select id="map" name="map" class="form-select" required>
-            <option value="">Select a Map</option>
-          </select>
-        </div>
-      </div>
-      <div class="mt-3">
-        <div id="map-display" style="margin-top: 5px">
-          <i>No map selected yet</i>
-        </div>
-      </div>
-
-      <div class="mb-3">
-        <label for="role" class="form-label">Role</label>
-        <div class="input-group">
-          <span class="input-group-text"
-            ><i class="bi bi-shield-lock"></i
-          ></span>
-          <select
-            id="role"
-            name="role"
-            class="form-select"
-            required
-            onchange="updateCharacters()"
-          >
-            <option value="">Select Role</option>
-            <option value="attack">Attack</option>
-            <option value="defend">Defend</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="mb-3">
-        <label for="role" class="form-label">Characters</label>
-        <div class="input-group">
-          <span class="input-group-text"
-            ><i class="bi bi-shield-lock"></i
-          ></span>
-          <select
-            id="characters"
-            name="characters[]"
-            class="form-select"
-            required
-            multiple
-            size="6"
-          >
-            <option value="">Select 5 Characters</option>
-          </select>
-        </div>
-      </div>
-      <div class="mt-3">
-        <strong>Selected Characters:</strong>
-        <div id="selected-display" style="margin-top: 5px"></div>
-      </div>
-
-      <!-- Email Opt-in Checkbox -->
-
-      <div class="form-check mb-3">
-        <input
-          type="checkbox"
-          id="remember"
-          name="remember"
-          class="form-check-input"
-        />
-        <label class="form-check-label" for="remember">Remember me</label>
-      </div>
-
-      <button type="submit" class="btn btn-primary w-100">Submit</button>
-
-      <p class="text-center mt-3">
-        Already have an account?
-        <a href="{{ url_for('auth.login') }}">Login</a>
-      </p>
-    </form>
+    </div>
   </body>
 </html>
+{% include 'partials/footer.html' %}
