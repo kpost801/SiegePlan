@@ -9,34 +9,39 @@ def home():
 
 
 
-@web.route("/project",methods=["GET", "POST"])
+@web.route("/project", methods=["GET", "POST"])
 def project():
-	if request.method == "POST":
-		project = request.form.get("project")
-		map = request.form.get("map")
-		role = request.form.get("role")
-		characters = request.form.getlist("characters[]")
-		new_strategy = Project(
-            project =project,
+    if request.method == "POST":
+        project = request.form.get("project")
+        map = request.form.get("map")
+        role = request.form.get("role")
+        notes = request.form.get("notes")
+        characters = request.form.getlist("characters[]")
+
+        new_strategy = Project(
+            project=project,
             map=map,
             role=role,
-            characters=",".join(characters)
+            characters=",".join(characters),
+            notes=notes
         )
-		db.session.add(new_strategy)
-		db.session.commit()
-		
-		session['strategies'] = [{
-			'id': new_strategy.id,
-			'project_name': new_strategy.project,
+
+        db.session.add(new_strategy)
+        db.session.commit()
+
+        session['strategies'] = [{
+            'id': new_strategy.id,
+            'project_name': new_strategy.project,
             'map': new_strategy.map,
             'role': new_strategy.role,
             'characters': new_strategy.characters
         }]
-		
-		return redirect(url_for("web.strat"))
-	
-	strategies = Project.query.all()
-	return render_template("project.html",strategies=strategies)
+
+        return redirect(url_for("web.strat"))
+
+    strategies = Project.query.all()
+    return render_template("project.html", strategies=strategies)
+
 
 @web.route('/strat')
 def strat():

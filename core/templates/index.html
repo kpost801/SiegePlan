@@ -141,11 +141,17 @@
               class="card-img-top"
               alt="Strategy Image"
             />
+            
             <div class="card-body">
               <h5 class="card-title">{{ strat.project_name }}</h5>
               <p class="card-text">
                 Map: {{ strat.map }} | Role: {{ strat.role }}
               </p>
+              {% if strat.notes %}
+                <p class="card-text"><strong>Notes:</strong> {{ strat.notes }}</p>
+                  {% else %}
+                  <p class="card-text text-muted fst-italic">No notes added yet.</p>
+              {% endif %}
               <div class="d-flex gap-2">
                 <a href="{{ url_for('web.strat') }}" class="btn btn-primary flex-fill">
                   View Strategy
